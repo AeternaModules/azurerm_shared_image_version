@@ -32,20 +32,20 @@ EOT
     name                                     = string
     resource_group_name                      = string
     blob_uri                                 = optional(string)
-    deletion_of_replicated_locations_enabled = optional(bool, false)
+    deletion_of_replicated_locations_enabled = optional(bool) # Default: false
     end_of_life_date                         = optional(string)
-    exclude_from_latest                      = optional(bool, false)
+    exclude_from_latest                      = optional(bool) # Default: false
     managed_image_id                         = optional(string)
     os_disk_snapshot_id                      = optional(string)
-    replication_mode                         = optional(string, "Full")
+    replication_mode                         = optional(string) # Default: "Full"
     storage_account_id                       = optional(string)
     tags                                     = optional(map(string))
     target_region = object({
       disk_encryption_set_id      = optional(string)
-      exclude_from_latest_enabled = optional(bool, false)
+      exclude_from_latest_enabled = optional(bool) # Default: false
       name                        = string
       regional_replica_count      = number
-      storage_account_type        = optional(string, "Standard_LRS")
+      storage_account_type        = optional(string) # Default: "Standard_LRS"
     })
   }))
 }
