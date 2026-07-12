@@ -1,3 +1,7 @@
+output "shared_image_versions_id" {
+  description = "Map of id values across all shared_image_versions, keyed the same as var.shared_image_versions"
+  value       = { for k, v in azurerm_shared_image_version.shared_image_versions : k => v.id }
+}
 output "shared_image_versions_blob_uri" {
   description = "Map of blob_uri values across all shared_image_versions, keyed the same as var.shared_image_versions"
   value       = { for k, v in azurerm_shared_image_version.shared_image_versions : k => v.blob_uri }
