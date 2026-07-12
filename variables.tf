@@ -40,13 +40,13 @@ EOT
     replication_mode                         = optional(string) # Default: "Full"
     storage_account_id                       = optional(string)
     tags                                     = optional(map(string))
-    target_region = object({
+    target_region = list(object({
       disk_encryption_set_id      = optional(string)
       exclude_from_latest_enabled = optional(bool) # Default: false
       name                        = string
       regional_replica_count      = number
       storage_account_type        = optional(string) # Default: "Standard_LRS"
-    })
+    }))
   }))
   # --- Unconfirmed validation candidates, derived from azurerm_shared_image_version's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,

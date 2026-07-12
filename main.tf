@@ -16,12 +16,15 @@ resource "azurerm_shared_image_version" "shared_image_versions" {
   storage_account_id                       = each.value.storage_account_id
   tags                                     = each.value.tags
 
-  target_region {
-    disk_encryption_set_id      = each.value.target_region.disk_encryption_set_id
-    exclude_from_latest_enabled = each.value.target_region.exclude_from_latest_enabled
-    name                        = each.value.target_region.name
-    regional_replica_count      = each.value.target_region.regional_replica_count
-    storage_account_type        = each.value.target_region.storage_account_type
+  dynamic "target_region" {
+    for_each = each.value.target_region
+    content {
+      disk_encryption_set_id      = target_region.value.disk_encryption_set_id
+      exclude_from_latest_enabled = target_region.value.exclude_from_latest_enabled
+      name                        = target_region.value.name
+      regional_replica_count      = target_region.value.regional_replica_count
+      storage_account_type        = target_region.value.storage_account_type
+    }
   }
 }
 
