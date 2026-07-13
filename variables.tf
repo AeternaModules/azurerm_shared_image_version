@@ -32,22 +32,30 @@ EOT
     name                                     = string
     resource_group_name                      = string
     blob_uri                                 = optional(string)
-    deletion_of_replicated_locations_enabled = optional(bool) # Default: false
+    deletion_of_replicated_locations_enabled = optional(bool)
     end_of_life_date                         = optional(string)
-    exclude_from_latest                      = optional(bool) # Default: false
+    exclude_from_latest                      = optional(bool)
     managed_image_id                         = optional(string)
     os_disk_snapshot_id                      = optional(string)
-    replication_mode                         = optional(string) # Default: "Full"
+    replication_mode                         = optional(string)
     storage_account_id                       = optional(string)
     tags                                     = optional(map(string))
     target_region = list(object({
       disk_encryption_set_id      = optional(string)
-      exclude_from_latest_enabled = optional(bool) # Default: false
+      exclude_from_latest_enabled = optional(bool)
       name                        = string
       regional_replica_count      = number
-      storage_account_type        = optional(string) # Default: "Standard_LRS"
+      storage_account_type        = optional(string)
     }))
   }))
+  validation {
+    condition = alltrue([
+      for k, v in var.shared_image_versions : (
+        length(v.target_region) >= 1
+      )
+    ])
+    error_message = "Each target_region list must contain at least 1 items"
+  }
   # --- Unconfirmed validation candidates, derived from azurerm_shared_image_version's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
